@@ -5,7 +5,7 @@ BEGIN{FS=""}
     }
 }
 END{
-    step=193;
+    step=500;
     for(i=1; i<=step; ++i){
         for(j=1; j<=10; ++j){
             for(k=1; k<=10; ++k) {
@@ -13,7 +13,7 @@ END{
             }
         }
         round_flash=0;
-        for(scan=1; scan<=10; ++scan){
+        for(scan=1; scan<=100; ++scan){
             for(j=1; j<=10; ++j){
                 for(k=1; k<=10; ++k) {
                     if(memo[j,k]>=10) {

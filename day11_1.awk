@@ -12,7 +12,7 @@ END{
                 ++memo[j,k]
             }
         }
-        for(scan=1; scan<=10; ++scan){
+        for(scan=1; scan<=100; ++scan){
             for(j=1; j<=10; ++j){
                 for(k=1; k<=10; ++k) {
                     if(memo[j,k]>=10) {
