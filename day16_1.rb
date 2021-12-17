@@ -4,23 +4,31 @@ dict = {'0' => '0000', '1' => '0001', '2' => '0010', '3' => '0011', '4' => '0100
 'F' => '1111'}
 
 $input = '8A004A801A8002F478'
-raw_binary_str = $input.split('').map{ |x| dict[x] }.join('').split('')
-versions = []
+$offset = 0
+$versions = []
+$types = []
 
-def parse_int (raw, offset, step)
+raw_binary_str = $input.split('').map{ |x| dict[x] }.join('').split('')
+
+def parse_int (raw, step)
     result = 0
-    for i in 0..step do
+    for i in 1..step do
         result *= 2
-        if (raw[offset] == '0')
+        if (raw[$offset] == '0')
             result += 0
         else
             result += 1
         end
-        offset = offset.next
+        $offset = $offset.next
     end
+    return result
 end
 
-def parse_version(raw, offset)
-    version
+def parse_version(raw)
+    $versions.push(parse_int(raw_binary_str, 3))
+    parse_type()
+end
 
+def parse_type(raw)
+    $ersions.pus
 end
