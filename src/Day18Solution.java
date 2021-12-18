@@ -1,5 +1,3 @@
-import com.sun.source.tree.Tree;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -25,10 +23,17 @@ public class Day18Solution {
             e.printStackTrace();
         }
         System.out.println(input);
+        TreeNode prevTree = null;
         for (String s : input) {
             TreeNode tree = parseInputLine(s);
             System.out.println(tree);
+            if (prevTree != null) {
+                prevTree = prevTree.add(tree);
+            } else {
+                prevTree = tree;
+            }
         }
+        System.out.println(prevTree);
     }
 
     public static class TreeNode {
@@ -44,11 +49,23 @@ public class Day18Solution {
             this.children = new ArrayList<>();
         }
 
-        public boolean isLeaf() {
-            return val >= 0;
+        public TreeNode add(TreeNode otherTree) {
+            TreeNode newRoot = new TreeNode(null, -1);
+            newRoot.children.add(this);
+            newRoot.children.add(otherTree);
+            return newRoot;
+        }
+
+        public int getMagnitude() {
+            if (val > 0) {
+                return val;
+            } else {
+                return 3*(children.get(0).getMagnitude()) + 2*(children.get(1).getMagnitude());
+            }
         }
 
         public String toString() {
+
             return Integer.toString(val);
         }
     }
