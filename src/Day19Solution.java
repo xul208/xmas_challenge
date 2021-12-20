@@ -78,7 +78,7 @@ public class Day19Solution {
     // <rotation #, times, x, y, z>
     private static List<Integer> findRotationOffset(List<List<Integer>> reference, List<List<Integer>> observed) {
         for (int i = 0; i < 6; ++i) {
-            for (int times = 0; times < 4   ; ++times) {
+            for (int times = 0; times < 4; ++times) {
                 var rotation = possible_rotations[i];
                 List<List<Integer>> observedTransformed = new ArrayList<>();
                 for (List<Integer> pos : observed) {
@@ -93,9 +93,6 @@ public class Day19Solution {
                         for (int k = 0; k < 3; ++k) {
                             possibleOffset.add(observedTransformed.get(j).get(k) - reference.get(x).get(k));
                         }
-                        if (j == 1 && x == 4) {
-                            System.out.printf("[DEBUG]: %d rotates %d times, delta %s \n",i, times, possibleOffset);
-                        }
                         int hits = 0;
                         for (List<Integer> rotated : observedTransformed) {
                             for (int k = 0; k < 3; ++k) {
@@ -103,8 +100,9 @@ public class Day19Solution {
                             }
                             if (reference.stream().anyMatch(pos -> pos.equals(rotated))) {
                                 ++hits;
+                             //   System.out.printf("%s is matched, hit# %d \n", rotated, hits);
                                 if (hits >= 12) {
-                                    break;
+                                    System.out.printf("=======hit!========\n");
                                 }
                             }
                         }
