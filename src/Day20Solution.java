@@ -10,7 +10,8 @@ public class Day20Solution {
         Map<Integer, Boolean> dictionary = new HashMap<>();
         Map<String, Boolean> seaMap = new HashMap<>();
         try {
-            reader = new BufferedReader(new FileReader("day20Example.txt"));
+            reader = new BufferedReader(new FileReader("day20_1.txt"));
+            //reader = new BufferedReader(new FileReader("day20Example.txt"));
             String line = reader.readLine();
             buildDictionary(line, dictionary);
             System.out.println(dictionary);
@@ -26,9 +27,10 @@ public class Day20Solution {
             printMap(seaMap, -5, 10);
             System.out.println(seaMap.values().stream().filter(b -> b).count());
             System.out.println("\n=====================\n");
-            seaMap = enhanceMap(seaMap, dictionary, -5, 10);
-            seaMap = enhanceMap(seaMap, dictionary, -5, 10);
-            printMap(seaMap, -5, 10);
+            for (int i = 0; i < 50; ++i) {
+                seaMap = enhanceMap(seaMap, dictionary, -3 * (i+1), 100 + 3 *(i+1), i % 2 > 0);
+            }
+            printMap(seaMap, -5, 105);
             System.out.println(seaMap.values().stream().filter(b -> b).count());
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,13 +57,14 @@ public class Day20Solution {
     }
 
     private static Boolean enhancePosition(Integer y, Integer x,
-                                           Map<String, Boolean> seaMap, Map<Integer, Boolean> dictionary) {
+                                           Map<String, Boolean> seaMap,
+                                           Map<Integer, Boolean> dictionary, Boolean defaultVal) {
         int dictionaryKey = 0;
         for (Integer i = y - 1; i <= y + 1; ++i) {
             for (int j = x - 1; j <= x + 1; ++j) {
                 dictionaryKey *= 2;
                 String mapKey = i.toString() + '_' + j;
-                Boolean mapResult = seaMap.getOrDefault(mapKey, false);
+                Boolean mapResult = seaMap.getOrDefault(mapKey, defaultVal);
                 if (mapResult) {
                     dictionaryKey += 1;
                 }
@@ -72,12 +75,13 @@ public class Day20Solution {
 
     private static Map<String, Boolean> enhanceMap(Map<String, Boolean> prevMap,
                                                    Map<Integer, Boolean> dictionary,
-                                                   int from, int to) {
+                                                   int from, int to,
+                                                   Boolean defaultVal) {
         Map<String, Boolean> newMap = new HashMap<>();
         for (Integer i = from; i < to; ++i) {
             for (int j = from; j < to; ++j) {
                 String mapKey = i.toString() + '_' + j;
-                newMap.put(mapKey, enhancePosition(i, j, prevMap, dictionary));
+                newMap.put(mapKey, enhancePosition(i, j, prevMap, dictionary, defaultVal));
             }
         }
         return newMap;
