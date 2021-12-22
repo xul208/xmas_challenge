@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Day22Solution {
     public static void main(String[] args) {
@@ -73,20 +74,33 @@ public class Day22Solution {
         Cubic cubic = new Cubic(space);
         registry.put(cubic.hashKey(), cubic);
         List<Integer> xAxis = new ArrayList<>();
+        Set<Integer> xSeen = new HashSet<>();
         List<Integer> yAxis = new ArrayList<>();
+        Set<Integer> ySeen = new HashSet<>();
         List<Integer> zAxis = new ArrayList<>();
+        Set<Integer> zSeen = new HashSet<>();
 
+        xSeen.add(cubic.stub.get(0));
         xAxis.add(cubic.stub.get(0));
+        xSeen.add(cubic.stub.get(1));
         xAxis.add(cubic.stub.get(1));
 
+        ySeen.add(cubic.stub.get(2));
         yAxis.add(cubic.stub.get(2));
+        ySeen.add(cubic.stub.get(3));
         yAxis.add(cubic.stub.get(3));
 
+        zSeen.add(cubic.stub.get(4));
         zAxis.add(cubic.stub.get(4));
+        zSeen.add(cubic.stub.get(5));
         zAxis.add(cubic.stub.get(5));
 
         for (var op : operations) {
-            xAxis.add(op.get(0) - 1);
+            System.out.println(op);
+            if(!xSeen.contains(op.get(0)-1)) {
+                xSeen.add(op.get(0)-1)
+                xAxis.add(op.get(0) - 1);
+            }
             xAxis.add(op.get(0));
             xAxis.add(op.get(1));
             xAxis.add(op.get(1) + 1);
@@ -112,21 +126,26 @@ public class Day22Solution {
                                 yAxis.get(j), yAxis.get(j + 1), zAxis.get(k), zAxis.get(k + 1), 0);
                         Cubic currentCubic = new Cubic(currentCubicStub);
                         Integer hashKey = currentCubic.hashKey();
-                        seen.add(hashKey);
-                        registry.put(hashKey, currentCubic);
 
                         if (!registry.containsKey(hashKey)) { // newly cut cubic
                             if (cubicFromOp.contains(currentCubic)) {
                                 currentCubic.stub.set(6, cubicFromOp.stub.get(6));
                             } else {
-                                Cubic parent = registry.values().stream().filter(c -> c.contains(currentCubic)).findFirst().get();
-                                currentCubic.stub.set(6, parent.stub.get(6));
+                                registry.values().stream().filter(c -> c.contains(currentCubic)).findFirst().map(
+                                       p -> currentCubic.stub.set(6, p.stub.get(6))
+                                ).orElseThrow(
+                                        ()->new Error("no parent")
+                                );
                             }
                         }
+                        seen.add(hashKey);
+                        registry.put(hashKey, currentCubic);
                     }
                 }
             }
-            registry.keySet().stream().filter(k -> !seen.contains(k)).forEach(registry::remove);
+            registry = registry.entrySet().stream()
+                    .filter(x -> seen.contains(x.getKey()))
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         }
 
         return registry.values().stream().map(c -> c.volume()).reduce(BigInteger.ZERO, BigInteger::add);
