@@ -16,7 +16,7 @@ add y w
 add y 7
 mul y x
 add z y
-==================> z += w1 + 7
+==================> w0 = []; z = w0+7
 inp w
 mul x 0
 add x z
@@ -35,7 +35,7 @@ add y w
 add y 8
 mul y x
 add z y
-==================> z += w2 + 8
+==================> w1 = []; z = 26(w0+7) + w1 + 8
 inp w
 mul x 0
 add x z
@@ -54,7 +54,7 @@ add y w
 add y 2
 mul y x
 add z y
-==================> z += w3 + 2
+==================> w2 = []; z = 26(26(w0+7)+w1+8)+w2+2
 inp w
 mul x 0
 add x z
@@ -73,7 +73,7 @@ add y w
 add y 11
 mul y x
 add z y
-==================> z += w4 + 11; z = w1+w2+w3+w4+28 = 64  (9999)
+==================> w3 = []; z = 26(26(26(w0+7)+w1+8)+w2+2) + w3+11
 inp w
 mul x 0
 add x z
@@ -92,7 +92,7 @@ add y w
 add y 6
 mul y x
 add z y
-==================> ?
+==================> w4 = w3+11-3; z = 26(26(w0+7)+w1+8)+w2+2
 inp w
 mul x 0
 add x z
@@ -111,7 +111,7 @@ add y w
 add y 12
 mul y x
 add z y
-==================> z += w6 + 12
+==================> w5 = []; z= 26(26(26(w0+7)+w1+8)+w2+2)+w5+12
 inp w
 mul x 0
 add x z
@@ -130,7 +130,7 @@ add y w
 add y 14
 mul y x
 add z y
-==================> z += w7 + 14
+==================> w6=[]; z=26(26(26(26(w0+7)+w1+8)+w2+2)+w5+12)+w6+14
 inp w
 mul x 0
 add x z
@@ -149,7 +149,7 @@ add y w
 add y 13
 mul y x
 add z y
-==================> ?
+==================> w7 = w6+14-16; z=26(26(26(w0+7)+w1+8)+w2+2)+w5+12
 inp w
 mul x 0
 add x z
@@ -168,7 +168,7 @@ add y w
 add y 15
 mul y x
 add z y
-==================> z += w9 + 15
+==================> w8 = []; z=26(26(26(26(w0+7)+w1+8)+w2+2)+w5+12)+w8+15
 inp w
 mul x 0
 add x z
@@ -187,7 +187,7 @@ add y w
 add y 10
 mul y x
 add z y
-==================> ?
+==================> w9 = w8 + 15 - 8; z=26(26(26(w0+7)+w1+8)+w2+2)+w5+12
 inp w
 mul x 0
 add x z
@@ -206,7 +206,7 @@ add y w
 add y 6
 mul y x
 add z y
-==================> ?
+==================> w10 = w5+12-12; z = 26(26(w0+7)+w1+8)+w2+2;
 inp w
 mul x 0
 add x z
@@ -225,7 +225,7 @@ add y w
 add y 10
 mul y x
 add z y
-==================> ?
+==================> w11 = w2 + 2 - 7; z = 26(w0+7)+w1+8
 inp w
 mul x 0
 add x z
@@ -244,13 +244,13 @@ add y w
 add y 8
 mul y x
 add z y
-==================> ?
+==================> w12 = w1 + 8 -6; z = w0+7
 inp w
 mul x 0
 add x z
 mod x 26
 div z 26
-add x -11    (z%26 - 11 = w)
+add x -11
 eql x w
 eql x 0
 mul y 0
@@ -263,3 +263,4 @@ add y w
 add y 5
 mul y x
 add z y
+=================> w13 = w0 + 7 -11; z = 0;

@@ -33,23 +33,28 @@ inp w       w = new_num
 mul x 0
 add x z
 mod x 26
-div z 1     z = z              OR   z/26
+div z 1
 add x 12    x = z % 26 + (>10) OR   + (<0)
+            z = z  OR   z/26
 eql x w
 eql x 0     x = x != w ? 1 : 0
 mul y 0
 add y 25
 mul y x
 add y 1
-mul z y     z *= ((25 * x) + 1)
+mul z y     z *= ((25 * x) + 1)  <26 or 1>
 mul y 0
 add y w
 add y 8
 mul y x
-add z y     z += (w+(8)) * x
+add z y     z += (w+(offset2)) * x
 
 if z is zero, the next round z will be non-zero
 if "offset1 > 10", z will be   +=(w + offset2)
+
+if x == 1 => z *= 26 => z += (w+offset2) => next round : x = w+offset2 + offset1
+if x == 0 => z unchanged
+
          */
     }
 
