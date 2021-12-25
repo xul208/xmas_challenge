@@ -56,6 +56,7 @@ if x == 1 => z *= 26 => z += (w+offset2) => next round : x = w+offset2 + offset1
 if x == 0 => z unchanged
 
          */
+        return null;
     }
 
     public static boolean isValidate(long ver, List<List<String>> ops) {
